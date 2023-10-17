@@ -1,8 +1,8 @@
 //Ensure html-webpack-plugin is pre-installed via npm.
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const OBJLoader = require('three-obj-loader');
-const THREE = require('three');
-OBJLoader(THREE); 
+// const OBJLoader = require('three-obj-loader');
+// const THREE = require('three');
+// OBJLoader(THREE); 
 
 module.exports = {
   module: {
@@ -15,11 +15,23 @@ module.exports = {
             options: {minimise: true}
           }
         ]
+
       },
       {
-        test: /\.obj$/,
-        loader: 'three-obj-loader'
-      }
+        test: /\.(obj|gltf)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+                outputPath: 'static'
+            }
+          }
+        ]
+      },
+      // {
+      //   test: /\.obj$/,
+      //   loader: 'three-obj-loader'
+      // }
     ]
   },
   plugins: [

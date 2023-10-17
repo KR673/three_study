@@ -2,9 +2,8 @@
 
 // Import Threejs.
 import * as THREE from "three"
-import objModel from '/static/IKEA_ARKELSTORP_Table_N020823.obj'
-
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import objModel from '/static/IKEA_ARKELSTORP_Table_N020823.obj';
 
 // Import stats.
 // import * as Stats from 'stats.js';
@@ -41,7 +40,7 @@ const material = new THREE.MeshLambertMaterial({
 // });
 const cube = new THREE.Mesh(geometry, material)
 // 将网格装入场景，默认位置 0 0 0
-scene.add(cube)
+// scene.add(cube)
 
 // 光源
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
