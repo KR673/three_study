@@ -4,6 +4,8 @@
 import * as THREE from "three"
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import objModel from '/static/IKEA_ARKELSTORP_Table_N020823.obj';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import TWEEN from '@tweenjs/tween.js'
 
 // Import stats.
 // import * as Stats from 'stats.js';
@@ -55,9 +57,17 @@ scene.add(light); // 将光源添加到场景中
 // var light = new THREE.PointLight(0xff0000, 100, 100); // 创建点光源，颜色为红色，强度为1，距离100个单位外光强为0
 // light.position.set(0, 10, 0); // 设置光源的位置
 // scene.add(light); // 将光源添加到场景中
+// 
+
+// 显示网格
+const gripHelper = new THREE.GridHelper(10, 10)
+gripHelper.material.opacity = 0.2
+gripHelper.material.transparent = true
+scene.add(gripHelper)
+
 
 // AxesHelper：辅助观察的坐标系
-const axesHelper = new THREE.AxesHelper(150);
+const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 
 var loader = new OBJLoader(); // 创建OBJLoader对象
@@ -66,6 +76,9 @@ loader.load(
     objModel, // 模型文件的路径
     function (object) { // 加载成功后的回调函数
         // 在回调函数中可以对加载的模型进行处理或添加到场景中
+        // trex = object.scene;
+        // trex.scale.setScalar(1);
+        object.scale.setScalar( 0.001 );
         scene.add(object); // 将模型添加到场景中
     },
     function (xhr) { // 加载进度的回调函数
@@ -95,11 +108,17 @@ document.body.appendChild(renderer.domElement)
 // 改变摄像机的位置，离物体远点
 camera.position.z = 5
 
+const controls = new OrbitControls(camera, renderer.domElement)
+controls.update()
+
 const animate = () => {
     // 浏器器定时回调animate, 否则死循环会卡死
     requestAnimationFrame(animate)
-    cube.rotation.x += 0.01
-    cube.rotation.y += 0.01
+    controls && controls.update()
+    TWEEN.update()
+    
+    // cube.rotation.x += 0.01
+    // cube.rotation.y += 0.01
     renderer.render(scene, camera)
 }
 
