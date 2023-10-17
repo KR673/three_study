@@ -2,33 +2,38 @@
 
 // Import Threejs.
 import * as THREE from "three"
+import objModel from '/static/IKEA_ARKELSTORP_Table_N020823.obj'
+
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 
 // Import stats.
-import * as Stats from 'stats.js';
+// import * as Stats from 'stats.js';
 
 // Stats.
-var stats = new Stats();
-stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild(stats.dom);
+// var stats = new Stats();
+// stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+// document.body.appendChild(stats.dom);
 
 // 初始化一个 Three 场景
 const scene = new THREE.Scene()
 
 // 新建一个盒子形状
 const geometry = new THREE.BoxGeometry()
+// geometry.computeVertexNormals()
 
 // 贴上材质
-// const material = new THREE.MeshLambertMaterial({
-//       color: 0x454545,
-// });
+const material = new THREE.MeshLambertMaterial({
+      color: 0x454545,
+});
 // const material = new THREE.MeshBasicMaterial({
 //     color: 0x454545,
-//     transparent: true,
-//     opacity: 0.5
+//     // transparent: true,
+//     // opacity: 0.5
 // });
-var material = new THREE.MeshLambertMaterial({
-  color: 0x00ff00,
-});
+// var material = new THREE.MeshLambertMaterial({
+//   color: 0x00ff00,
+// });
+// var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
 // var material = new THREE.MeshPhongMaterial({
 //   color: 0xff0000,
 //   specular:0x444444,//高光部分的颜色
@@ -42,13 +47,36 @@ scene.add(cube)
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
 scene.add(ambientLight)
 
-const pointLight = new THREE.PointLight(0xffffff, 1);
-pointLight.position.set(200, 300, 400);//点光源放在x轴上
-scene.add(pointLight)
+// const pointLight = new THREE.PointLight(0xffffff, 1);
+// pointLight.position.set(200, 300, 400);//点光源放在x轴上
+// scene.add(pointLight)
+var light = new THREE.DirectionalLight(0xffffff, 1); // 创建平行光，颜色为白色，强度为1
+light.position.set(0, 1, 0); // 设置光源的方向
+scene.add(light); // 将光源添加到场景中
+// var light = new THREE.PointLight(0xff0000, 100, 100); // 创建点光源，颜色为红色，强度为1，距离100个单位外光强为0
+// light.position.set(0, 10, 0); // 设置光源的位置
+// scene.add(light); // 将光源添加到场景中
 
 // AxesHelper：辅助观察的坐标系
 const axesHelper = new THREE.AxesHelper(150);
 scene.add(axesHelper);
+
+var loader = new OBJLoader(); // 创建OBJLoader对象
+
+loader.load(
+    objModel, // 模型文件的路径
+    function (object) { // 加载成功后的回调函数
+        // 在回调函数中可以对加载的模型进行处理或添加到场景中
+        scene.add(object); // 将模型添加到场景中
+    },
+    function (xhr) { // 加载进度的回调函数
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    function (error) { // 加载错误的回调函数
+        console.log('An error happened');
+    }
+);
+
 
 // 新建一个摄像机
 const camera = new THREE.PerspectiveCamera(
@@ -91,7 +119,7 @@ window.addEventListener('resize', () => {
 
 // Draw Scene
 function render() {
-    stats.update()
+    // stats.update()
     renderer.render(scene, camera);
 }
 
