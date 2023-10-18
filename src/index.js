@@ -63,7 +63,7 @@ scene.add(axesHelper);
 var loader = new OBJLoader(); // 创建OBJLoader对象
 
 loader.load(
-    objModel, // 模型文件的路径
+    'static/IKEA_ARKELSTORP_Table_N020823.obj', // 模型文件的路径
     function (object) { // 加载成功后的回调函数
         // 在回调函数中可以对加载的模型进行处理或添加到场景中
         scene.add(object); // 将模型添加到场景中
