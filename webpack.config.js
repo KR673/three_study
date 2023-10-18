@@ -1,10 +1,6 @@
 const path = require('path');
-//Ensure html-webpack-plugin is pre-installed via npm.
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
-// const OBJLoader = require('three-obj-loader');
-// const THREE = require('three');
-// OBJLoader(THREE); 
 
 module.exports = {
   devServer: { 
@@ -15,6 +11,11 @@ module.exports = {
       // 服务端口
       port: 8000 
   }, 
+  entry: "./src/index.js",
+  output: {
+    path: path.resolve(__dirname, "./docs"),
+    filename: "index_bundle.js",
+  },
   module: {
     rules: [
       {
@@ -33,7 +34,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-                outputPath: 'static'
+                outputPath: './docs/static'
             }
           }
         ]
